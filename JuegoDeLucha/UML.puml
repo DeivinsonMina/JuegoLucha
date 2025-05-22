@@ -1,0 +1,41 @@
+@startuml
+
+class Personaje {
+    -nombre: String
+    -vida: int
+    +atacar(estrategia: StrategyAtaque, oponente: Personaje): void
+    +recibirDanio(danio: int): void
+}
+
+interface StrategyAtaque {
+    +ejecutar(atacante: Personaje, oponente: Personaje): void
+}
+
+class AtaqueScar
+class AtaqueMp40
+class AtaqueG18
+
+class factoryAtaques {
+    +crearAtaque(opcion: int): StrategyAtaque
+}
+
+class JuegoLucha {
+    -jugador1: Personaje
+    -jugador2: Personaje
+    +iniciar(): void
+}
+
+class Main {
+    +main(args: String[]): void
+}
+
+Personaje --> StrategyAtaque : usa
+StrategyAtaque <|.. AtaqueScar
+StrategyAtaque <|.. AtaqueMp40
+StrategyAtaque <|.. AtaqueG18
+factoryAtaques ..> StrategyAtaque : crea
+JuegoLucha *-- Personaje : contiene
+JuegoLucha ..> factoryAtaques : usa
+Main --> JuegoLucha : ejecuta
+
+@enduml
